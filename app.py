@@ -435,7 +435,7 @@ for k, v in {
     "obs": [], "counter": 0,
     "child_age": "3;0", "test_used": "DEAP", "notes": "",
     "map_dim": None, "map_proc": None,
-    "edu_proc": None,
+    "edu_proc": None, "edu_search_proc": None,
 }.items():
     if k not in st.session_state:
         st.session_state[k] = v
@@ -842,57 +842,115 @@ with t_map:
 # ─────────────────────────────────────────────────────────────────────────────
 with t_edu:
     st.subheader("Educational Exploration Mode")
-    st.markdown("Start from a **system dimension** and explore downward — processes, example errors, development, therapy.")
+    st.markdown("Start from a **system dimension**, or search across all processes by name, symptom, or therapy approach.")
 
-    col_l, col_r = st.columns([1, 2])
+    # ── Search bar ────────────────────────────────────────────────────────────
+    search_q = st.text_input(
+        "Search",
+        placeholder="e.g. velar, minimal pairs, intelligibility, 3 years, stopping...",
+        label_visibility="collapsed"
+    )
 
-    with col_l:
-        edu_dim = st.selectbox("Select a system dimension", ["— Select —"] + list(DIMENSIONS.keys()))
-        if edu_dim != "— Select —":
-            dinfo = DIMENSIONS[edu_dim]
-            st.info(dinfo["description"])
-            st.markdown("**Processes:**")
-            for pname in dinfo["processes"]:
-                is_active = pname in active_procs
-                label = f"{'🔴 ' if is_active else ''}→ {pname}"
-                if st.button(label, key=f"edu_{pname}", use_container_width=True):
-                    st.session_state.edu_proc = pname
-                    st.rerun()
+    def build_search_corpus(pname, proc):
+        parts = [
+            pname,
+            proc.get("description", ""),
+            proc.get("clinical", ""),
+            proc.get("development", ""),
+            proc.get("category", ""),
+            proc.get("dimension", ""),
+            " ".join(proc.get("therapy", [])),
+            " ".join(ep[2] for ep in proc.get("examples_phoneme", [])),
+            " ".join(f"{ew[0]} {ew[1]}" for ew in proc.get("examples_word", [])),
+        ]
+        return " ".join(parts).lower()
 
-    with col_r:
-        if edu_dim != "— Select —" and st.session_state.edu_proc:
-            pname = st.session_state.edu_proc
-            if pname in DIMENSIONS[edu_dim]["processes"]:
-                proc = PROCESSES.get(pname, {})
-                st.markdown(f"## {pname}")
-                st.markdown(f"*{proc.get('category','')} — {proc.get('dimension','')}*")
-                st.divider()
-                st.markdown(f"**Explanation:** {proc.get('description','')}")
-                st.markdown(f"**Developmental timeline:** {proc.get('development','')}")
-                st.markdown(f"**System effect:** {proc.get('clinical','')}")
+    def render_process_panel(pname, source_key):
+        """Renders the full knowledge panel for a process on the right column."""
+        proc = PROCESSES.get(pname, {})
+        dim = proc.get("dimension", "")
+        st.markdown(f"## {pname}")
+        st.markdown(f"*{proc.get('category', '')} — {dim}*")
+        st.divider()
+        st.markdown(f"**Explanation:** {proc.get('description', '')}")
+        st.markdown(f"**Developmental timeline:** {proc.get('development', '')}")
+        st.markdown(f"**System effect:** {proc.get('clinical', '')}")
+        if proc.get("examples_phoneme"):
+            st.markdown("**Example errors:**")
+            df_ex = pd.DataFrame(proc["examples_phoneme"], columns=["Target", "Produced", "Example"])
+            st.table(df_ex)
+        elif proc.get("examples_word"):
+            st.markdown("**Example productions:**")
+            df_ex = pd.DataFrame(proc["examples_word"], columns=["Target", "Produced"])
+            st.table(df_ex)
+        if proc.get("therapy"):
+            st.markdown("**Therapy approaches:**")
+            for t in proc["therapy"]:
+                st.write(f"- {t}")
+        if pname in active_procs:
+            st.success(f"**Active in current session** — {p_counts[pname]} instance(s)")
 
-                if proc.get("examples_phoneme"):
-                    st.markdown("**Example errors:**")
-                    df_ex = pd.DataFrame(proc["examples_phoneme"], columns=["Target", "Produced", "Example"])
-                    st.table(df_ex)
-                elif proc.get("examples_word"):
-                    st.markdown("**Example productions:**")
-                    df_ex = pd.DataFrame(proc["examples_word"], columns=["Target", "Produced"])
-                    st.table(df_ex)
+    # ── Search mode ───────────────────────────────────────────────────────────
+    if search_q.strip():
+        q = search_q.strip().lower()
+        matches = [
+            pname for pname, proc in PROCESSES.items()
+            if q in build_search_corpus(pname, proc)
+        ]
 
-                if proc.get("therapy"):
-                    st.markdown("**Therapy approaches:**")
-                    for t in proc["therapy"]:
-                        st.write(f"- {t}")
-
-                if pname in active_procs:
-                    st.success(f"**Active in current session** — {p_counts[pname]} instance(s)")
+        col_l, col_r = st.columns([1, 2])
+        with col_l:
+            if matches:
+                st.markdown(f"**{len(matches)} result(s) for** *\"{search_q}\"*")
+                for pname in matches:
+                    is_active = pname in active_procs
+                    dim_tag = PROCESSES[pname].get("dimension", "")
+                    label = f"{'🔴 ' if is_active else ''}→ {pname}"
+                    st.caption(dim_tag)
+                    if st.button(label, key=f"srch_{pname}", use_container_width=True):
+                        st.session_state.edu_search_proc = pname
+                        st.rerun()
             else:
-                st.info("Select a process from the left.")
-        elif edu_dim != "— Select —":
-            st.info("Select a process from the left panel.")
-        else:
-            st.info("Select a system dimension from the dropdown to begin.")
+                st.warning(f"No processes matched *\"{search_q}\"*.")
+                st.caption("Try: process name, symptom, therapy approach, or developmental age.")
+
+        with col_r:
+            selected = st.session_state.edu_search_proc
+            if selected and selected in matches:
+                render_process_panel(selected, "search")
+            elif matches:
+                st.info("Select a result on the left to view its full knowledge panel.")
+
+    # ── Browse mode (dimension → process) ────────────────────────────────────
+    else:
+        col_l, col_r = st.columns([1, 2])
+        with col_l:
+            edu_dim = st.selectbox(
+                "Select a system dimension",
+                ["— Select —"] + list(DIMENSIONS.keys())
+            )
+            if edu_dim != "— Select —":
+                dinfo = DIMENSIONS[edu_dim]
+                st.info(dinfo["description"])
+                st.markdown("**Processes:**")
+                for pname in dinfo["processes"]:
+                    is_active = pname in active_procs
+                    label = f"{'🔴 ' if is_active else ''}→ {pname}"
+                    if st.button(label, key=f"edu_{pname}", use_container_width=True):
+                        st.session_state.edu_proc = pname
+                        st.rerun()
+
+        with col_r:
+            if edu_dim != "— Select —" and st.session_state.edu_proc:
+                pname = st.session_state.edu_proc
+                if pname in DIMENSIONS[edu_dim]["processes"]:
+                    render_process_panel(pname, "browse")
+                else:
+                    st.info("Select a process from the left.")
+            elif edu_dim != "— Select —":
+                st.info("Select a process from the left panel.")
+            else:
+                st.info("Select a system dimension from the dropdown to begin.")
 
 # ─────────────────────────────────────────────────────────────────────────────
 # TAB 5 — EXPORT
