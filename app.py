@@ -428,12 +428,123 @@ def interpret(p_counts, age_months):
                 concerns=concerns, atypical=atypical, actions=actions)
 
 # ═══════════════════════════════════════════════════════════════════════════════
+# SYSTEM EFFECTS  (one-line description of what each process does to the system)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+SYSTEM_EFFECTS = {
+    "Weak Syllable Deletion":    "Reduces word length; collapses multisyllabic word shapes.",
+    "Final Consonant Deletion":  "Collapses CVC → CV; eliminates the coda contrast.",
+    "Cluster Reduction":         "Simplifies onset clusters; reduces syllable shape complexity.",
+    "Epenthesis":                "Inserts vowel into cluster; adds extra syllable.",
+    "Initial Consonant Deletion":"Removes onset entirely; atypical collapse of word shape.",
+    "Stopping":                  "Fricatives/affricates → stops; collapses manner contrast.",
+    "Velar Fronting":            "Loss of velar vs alveolar place contrast.",
+    "Palatal Fronting":          "Loss of palatal vs alveolar place contrast.",
+    "Gliding":                   "Liquids collapse into glides; reduces liquid contrast.",
+    "Deaffrication":             "Affricates lose stop element; reduces affricate/fricative distinction.",
+    "Vocalisation":              "Syllabic liquids → vowels; affects liquid inventory in final position.",
+    "Final Devoicing":           "Voiced codas devoiced; collapses voicing contrast word-finally.",
+    "Initial Voicing":           "Voiceless onsets voiced; collapses voicing contrast word-initially.",
+    "Backing":                   "Alveolars → velars; atypical reversal of place contrast.",
+    "Progressive Assimilation":  "Earlier sound influences later sound; whole-word harmony.",
+    "Regressive Assimilation":   "Later sound influences earlier sound; whole-word harmony.",
+}
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# CONSONANT CHART  (uses same simplified notation as the rest of the app)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+CONSONANT_CHART = {
+    "Stops":      {"bilabial": ["p","b"], "alveolar": ["t","d"], "velar": ["k","g"]},
+    "Nasals":     {"bilabial": ["m"], "alveolar": ["n"], "velar": ["ng"]},
+    "Fricatives": {"labiodental": ["f","v"], "dental": ["th","dh"],
+                   "alveolar": ["s","z"], "postalveolar": ["sh","zh"]},
+    "Affricates": {"postalveolar": ["ch","j"]},
+    "Liquids":    {"alveolar": ["l","r"]},
+    "Glides":     {"labial": ["w"], "palatal": ["y"]},
+}
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PHONEME INVENTORY ENGINE
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def build_phoneme_inventory(observations):
+    """
+    Build inventory from phoneme-type observations only.
+    Keeps target/produced as whole strings ("sh", "ng", etc.) — never splits by character.
+    """
+    produced = set()
+    targets  = set()
+    for obs in observations:
+        if obs.get("type") == "phoneme":
+            t = obs["target"].strip().lower()
+            p = obs["produced"].strip().lower()
+            if t:
+                targets.add(t)
+            if p:
+                produced.add(p)
+    return {"produced": produced, "targets": targets, "missing": targets - produced}
+
+def display_inventory_chart(inventory):
+    """Render the consonant chart with colour-coded phoneme status."""
+    produced = inventory["produced"]
+    targeted = inventory["targets"]
+    st.caption("🟢 Produced   🔴 Targeted but not produced   ⬜ Not in sample")
+    for manner, places in CONSONANT_CHART.items():
+        with st.expander(f"**{manner}**", expanded=True):
+            cols = st.columns(len(places))
+            for i, (place, phonemes) in enumerate(places.items()):
+                with cols[i]:
+                    st.caption(place)
+                    for ph in phonemes:
+                        if ph in produced:
+                            st.markdown(
+                                f"<span style='background:#d4edda;border-radius:4px;"
+                                f"padding:2px 7px;font-weight:600'>🟢 {ph}</span>",
+                                unsafe_allow_html=True)
+                        elif ph in targeted:
+                            st.markdown(
+                                f"<span style='background:#f8d7da;border-radius:4px;"
+                                f"padding:2px 7px'>🔴 {ph}</span>",
+                                unsafe_allow_html=True)
+                        else:
+                            st.markdown(
+                                f"<span style='color:#aaa;padding:2px 7px'>⬜ {ph}</span>",
+                                unsafe_allow_html=True)
+
+def inventory_reasoning(inventory):
+    """Generate clinical insights from the phoneme inventory."""
+    produced = inventory["produced"]
+    targeted = inventory["targets"]
+    insights = []
+
+    velars = {"k", "g", "ng"}
+    if velars & targeted and not velars & produced:
+        insights.append(
+            "**Velar inventory gap:** Velars were targeted but not produced. "
+            "Consider whether this reflects Velar Fronting (a process) or true phoneme absence — "
+            "the distinction affects therapy approach.")
+
+    fricatives = {"f","v","s","z","sh","zh","th","dh"}
+    if fricatives & targeted and not fricatives & produced:
+        insights.append(
+            "**Fricative inventory gap:** Fricatives targeted but absent from produced inventory. "
+            "May reflect consistent Stopping or a broader inventory gap.")
+
+    if produced and len(produced) < 6:
+        insights.append(
+            f"**Limited inventory:** Only {len(produced)} distinct consonant(s) produced in this sample "
+            f"({', '.join(sorted(produced))}). Consider whether sample size is sufficient for inventory assessment.")
+
+    return insights
+
+# ═══════════════════════════════════════════════════════════════════════════════
 # SESSION STATE
 # ═══════════════════════════════════════════════════════════════════════════════
 
 for k, v in {
     "obs": [], "counter": 0,
-    "child_age": "0;0", "test_used": "DEAP", "notes": "",
+    "child_age": "3;0", "test_used": "DEAP", "notes": "",
     "map_dim": None, "map_proc": None,
     "edu_proc": None, "edu_search_proc": None,
     "page": "input",
@@ -489,6 +600,21 @@ with st.sidebar:
     if age_m:
         st.caption(f"Age: {age_m} months ({age_m//12};{age_m%12:02d})")
     st.caption(f"Session: {date.today().strftime('%d %b %Y')}")
+
+    st.divider()
+    with st.expander("📖 Process Reference"):
+        ref_proc = st.selectbox("Process", list(PROCESSES.keys()), key="sidebar_ref")
+        rp = PROCESSES[ref_proc]
+        st.markdown(f"**Description:** {rp['description']}")
+        se = SYSTEM_EFFECTS.get(ref_proc, "")
+        if se:
+            st.markdown(f"**System effect:** {se}")
+        st.markdown(f"**Development:** {rp['development']}")
+        st.markdown(f"**Clinical note:** {rp['clinical']}")
+        if rp.get("therapy"):
+            st.markdown("**Therapy:**")
+            for _t in rp["therapy"]:
+                st.write(f"- {_t}")
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # GLOBAL ANALYSIS (runs once per rerun)
@@ -655,6 +781,9 @@ elif st.session_state.page == "analysis":
                     col_a, col_b = st.columns(2)
                     with col_a:
                         st.markdown(f"**Description:** {proc.get('description','')}")
+                        se = SYSTEM_EFFECTS.get(proc_name, "")
+                        if se:
+                            st.markdown(f"**System effect:** {se}")
                         st.markdown(f"**Development:** {proc.get('development','')}")
                         st.markdown(f"**Clinical note:** {proc.get('clinical','')}")
                         if proc.get("therapy"):
@@ -674,6 +803,32 @@ elif st.session_state.page == "analysis":
                             st.markdown("**Typical examples:**")
                             for ew in proc["examples_word"][:3]:
                                 st.caption(f"{ew[0]} → {ew[1]}")
+                    # ── Inventory link warning ────────────────────────────────
+                    _inv = build_phoneme_inventory(st.session_state.obs)
+                    _prod = _inv["produced"]
+                    if proc_name == "Velar Fronting" and not {"k","g"} & _prod:
+                        st.warning("Velars absent from produced inventory in this sample. "
+                                   "Consider phoneme absence rather than a process — this changes the therapy approach.")
+                    elif proc_name == "Stopping" and not {"f","v","s","z","sh"} & _prod:
+                        st.warning("Fricatives absent from produced inventory. "
+                                   "May reflect inventory gap rather than a process.")
+                    elif proc_name == "Backing":
+                        st.error("Backing is an atypical pattern. Flag for specialist review.")
+
+        st.divider()
+
+        # ── Phoneme Inventory ─────────────────────────────────────────────────
+        st.subheader("Phoneme Inventory")
+        _inventory = build_phoneme_inventory(st.session_state.obs)
+        if not _inventory["targets"]:
+            st.caption("Add Phoneme Substitution observations to populate the inventory chart.")
+        else:
+            display_inventory_chart(_inventory)
+            _insights = inventory_reasoning(_inventory)
+            if _insights:
+                st.markdown("**Inventory interpretation:**")
+                for _ins in _insights:
+                    st.info(_ins)
 
         st.divider()
 
