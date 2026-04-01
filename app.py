@@ -433,7 +433,7 @@ def interpret(p_counts, age_months):
 
 for k, v in {
     "obs": [], "counter": 0,
-    "child_age": "3;0", "test_used": "DEAP", "notes": "",
+    "child_age": "0;0", "test_used": "DEAP", "notes": "",
     "map_dim": None, "map_proc": None,
     "edu_proc": None, "edu_search_proc": None,
     "page": "input",
