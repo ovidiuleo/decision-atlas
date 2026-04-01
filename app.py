@@ -436,6 +436,7 @@ for k, v in {
     "child_age": "3;0", "test_used": "DEAP", "notes": "",
     "map_dim": None, "map_proc": None,
     "edu_proc": None, "edu_search_proc": None,
+    "page": "input",
 }.items():
     if k not in st.session_state:
         st.session_state[k] = v
@@ -465,9 +466,23 @@ with st.sidebar:
             st.rerun()
 
     st.divider()
+    if st.button("🏠  New Case", use_container_width=True, type="primary"):
+        st.session_state.obs = []
+        st.session_state.counter = 0
+        st.session_state.child_age = "0;0"
+        st.session_state.test_used = "DEAP"
+        st.session_state.notes = ""
+        st.session_state.map_dim = None
+        st.session_state.map_proc = None
+        st.session_state.edu_proc = None
+        st.session_state.edu_search_proc = None
+        st.session_state.page = "input"
+        st.rerun()
+
     if st.button("Reset Session", use_container_width=True):
         st.session_state.obs = []
         st.session_state.counter = 0
+        st.session_state.page = "input"
         st.rerun()
 
     age_m = parse_age_months(st.session_state.child_age)
@@ -503,15 +518,20 @@ if st.session_state.notes:
 # TABS
 # ═══════════════════════════════════════════════════════════════════════════════
 
-t_input, t_analysis, t_map, t_edu, t_export = st.tabs([
-    "Input & Observations", "Analysis & Reasoning",
-    "System Map", "Educational Exploration", "Export"
-])
+_PAGE_LABELS = ["Input & Observations", "Analysis & Reasoning",
+                "System Map", "Educational Exploration", "Export"]
+_PAGE_KEYS   = ["input", "analysis", "map", "edu", "export"]
+
+_nav = st.radio("", _PAGE_LABELS,
+                index=_PAGE_KEYS.index(st.session_state.page),
+                horizontal=True, label_visibility="collapsed")
+st.session_state.page = _PAGE_KEYS[_PAGE_LABELS.index(_nav)]
+st.divider()
 
 # ─────────────────────────────────────────────────────────────────────────────
 # TAB 1 — INPUT & OBSERVATIONS
 # ─────────────────────────────────────────────────────────────────────────────
-with t_input:
+if st.session_state.page == "input":
     st.subheader("Add Observation")
 
     obs_type_choice = st.radio(
@@ -612,7 +632,7 @@ with t_input:
 # ─────────────────────────────────────────────────────────────────────────────
 # TAB 2 — ANALYSIS & REASONING
 # ─────────────────────────────────────────────────────────────────────────────
-with t_analysis:
+elif st.session_state.page == "analysis":
     if not st.session_state.obs:
         st.info("Add observations in **Input & Observations** to see analysis here.")
     else:
@@ -762,7 +782,7 @@ with t_analysis:
 # ─────────────────────────────────────────────────────────────────────────────
 # TAB 3 — SYSTEM MAP
 # ─────────────────────────────────────────────────────────────────────────────
-with t_map:
+elif st.session_state.page == "map":
     st.subheader("Phonological System Map")
     st.caption("Click a dimension to explore. Processes detected in the current session are highlighted.")
 
@@ -840,7 +860,7 @@ with t_map:
 # ─────────────────────────────────────────────────────────────────────────────
 # TAB 4 — EDUCATIONAL EXPLORATION
 # ─────────────────────────────────────────────────────────────────────────────
-with t_edu:
+elif st.session_state.page == "edu":
     st.subheader("Educational Exploration Mode")
     st.markdown("Start from a **system dimension**, or search across all processes by name, symptom, or therapy approach.")
 
@@ -955,7 +975,7 @@ with t_edu:
 # ─────────────────────────────────────────────────────────────────────────────
 # TAB 5 — EXPORT
 # ─────────────────────────────────────────────────────────────────────────────
-with t_export:
+elif st.session_state.page == "export":
     st.subheader("Case Summary Export")
     if not st.session_state.obs:
         st.info("Add observations to generate a case summary.")
