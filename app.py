@@ -24,7 +24,7 @@ st.markdown("""
 # KNOWLEDGE BASE
 # ═══════════════════════════════════════════════════════════════════════════════
 
-# Helper: generate all fricative/affricate → stop pairs for Stopping
+# Helper: all fricative/affricate → stop pairs for Stopping detection
 _FRICATIVES = ["f", "v", "s", "z", "th", "dh", "sh", "zh"]
 _AFFRICATES = ["ch", "j"]
 _STOPS = ["p", "b", "t", "d", "k", "g"]
@@ -34,10 +34,10 @@ PROCESSES = {
     # ── SYLLABLE STRUCTURE ────────────────────────────────────────────────────
     "Weak Syllable Deletion": {
         "category": "Syllable structure", "dimension": "Syllable structure", "type": "word",
-        "description": "Unstressed syllables are deleted from multisyllabic words.",
+        "description": "Unstressed syllables are deleted from multisyllabic words, leaving only the stressed syllable(s).",
         "examples_word": [("banana","nana"), ("elephant","efant"), ("potato","tato"),
                           ("computer","puter"), ("tomato","mato"), ("umbrella","brella")],
-        "development": "Typically resolves by ~3;0-3;5.",
+        "development": "Typically resolves by ~3;0–3;5.",
         "resolution_age_months": 41,
         "clinical": "Affects intelligibility for multisyllabic words; can impact early word learning.",
         "therapy": ["Syllable segmentation and tapping activities",
@@ -46,67 +46,67 @@ PROCESSES = {
     },
     "Final Consonant Deletion": {
         "category": "Syllable structure", "dimension": "Coda stability", "type": "word",
-        "description": "Consonants in word-final (coda) position are omitted.",
+        "description": "Consonants in word-final (coda) position are omitted, reducing CVC words to CV.",
         "examples_word": [("cat","ca"), ("cup","cu"), ("bed","be"), ("dog","do"),
                           ("duck","du"), ("frog","fro"), ("knife","nai"), ("chess","che")],
         "development": "Typically resolves by ~3;0.",
         "resolution_age_months": 36,
-        "clinical": "Reduces intelligibility; affects CV vs CVC contrast; impacts plural/past-tense morphology. Associated with deafness.",
+        "clinical": "Reduces intelligibility; collapses the CV/CVC contrast; impacts plural /z/, past tense /d/ morphology. Associated with hearing impairment (more errors on word-final consonants generally).",
         "therapy": ["Final consonant cueing (tactile, visual)",
                     "Auditory bombardment with CVC targets",
                     "Minimal pairs contrasting CV vs CVC (e.g. bee/bees)"]
     },
     "Cluster Reduction": {
         "category": "Syllable structure", "dimension": "Syllable structure", "type": "word",
-        "description": "Consonant clusters are reduced to a single consonant.",
+        "description": "Consonant clusters are reduced to a single consonant, simplifying onset or coda complexity.",
         "examples_word": [("stop","top"), ("play","pay"), ("green","geen"), ("blue","boo"),
                           ("frog","fog"), ("sky","kai"), ("sport","pot"), ("spy","pai"),
                           ("snore","nor"), ("store","tor"), ("splash","plash"), ("string","ting")],
-        "development": "2-element clusters resolve by ~3;6-3;11; 3-element clusters by ~4;0-4;5.",
+        "development": "2-element clusters resolve by ~3;6–3;11; 3-element clusters (e.g. /spl/, /str/) by ~4;0–4;5.",
         "resolution_age_months": 54,
-        "clinical": "Affects onset complexity; reduces syllable shape contrasts. Distinguish from final consonant deletion.",
+        "clinical": "Affects onset complexity; reduces syllable shape contrasts. Distinguish carefully from final consonant deletion.",
         "therapy": ["Sequential blending of cluster elements",
                     "Minimal pairs contrasting cluster vs singleton (e.g. top/stop)",
                     "Hierarchy: /s/+stop before /s/+nasal before liquid clusters"]
     },
     "Epenthesis": {
         "category": "Syllable structure", "dimension": "Syllable structure", "type": "word",
-        "description": "A vowel is inserted within a consonant cluster, adding an extra syllable.",
+        "description": "A vowel (often schwa) is inserted within a consonant cluster, adding an extra syllable.",
         "examples_word": [("blue","belue"), ("play","pelay"), ("green","gereen"), ("frog","ferog")],
-        "development": "Typically resolves by ~3-4 years; often a transitional cluster strategy.",
+        "development": "Typically resolves by ~3–4 years; often a transitional cluster acquisition strategy.",
         "resolution_age_months": 48,
-        "clinical": "Transitional pattern during cluster acquisition; less marked than cluster reduction.",
+        "clinical": "Transitional pattern during cluster acquisition; considered less marked than cluster reduction, as the cluster elements are still present.",
         "therapy": ["Auditory discrimination between cluster and epenthesis forms",
                     "Sequential blending activities"]
     },
     "Initial Consonant Deletion": {
         "category": "Other", "dimension": "Syllable structure", "type": "word",
-        "description": "Consonants in word-initial position are omitted.",
+        "description": "Consonants in word-initial (onset) position are omitted entirely.",
         "examples_word": [("cat","at"), ("sun","un"), ("dog","og"), ("fish","ish")],
-        "development": "Atypical — not part of normal phonological development.",
+        "development": "Atypical — not part of normal phonological development at any age.",
         "resolution_age_months": 0,
-        "clinical": "Significant atypical pattern; markedly reduces intelligibility; warrants assessment.",
+        "clinical": "Significant atypical pattern; markedly reduces intelligibility; warrants specialist assessment.",
         "therapy": ["Specialist phonological assessment",
-                    "Initial consonant cueing",
+                    "Initial consonant cueing (visual, tactile)",
                     "Auditory bombardment with initial-consonant targets"]
     },
     "Reduplication": {
         "category": "Syllable structure", "dimension": "Syllable structure", "type": "word",
-        "description": "Complete or partial duplication of a stressed syllable replaces the full word form.",
+        "description": "Complete or partial duplication of a stressed syllable replaces the full word form (e.g. a CVCV word becomes CVCV where both syllables are identical).",
         "examples_word": [("tiger","taitai"), ("bottle","bobo"), ("water","wawa"),
                           ("daddy","dada"), ("biscuit","bibi")],
-        "development": "Typically resolves by ~3;0. Very early developmental process.",
+        "development": "Typically resolves by ~3;0. One of the very earliest syllable structure processes.",
         "resolution_age_months": 36,
-        "clinical": "One of the earliest simplification strategies; affects word shape and intelligibility.",
-        "therapy": ["Auditory bombardment with target word shapes",
+        "clinical": "One of the earliest simplification strategies; affects word shape and intelligibility in connected speech.",
+        "therapy": ["Auditory bombardment with differentiated target word shapes",
                     "Syllable differentiation activities",
-                    "Modelling varied CV structures"]
+                    "Modelling varied CV/CVC structures"]
     },
     # ── SUBSTITUTION ──────────────────────────────────────────────────────────
     "Stopping": {
         "category": "Substitution", "dimension": "Manner contrasts", "type": "phoneme",
         "pairs": _STOPPING_PAIRS,
-        "description": "Fricatives and/or affricates are replaced with stops. The stop may or may not match the target's voicing or place.",
+        "description": "Fricatives (/f, v, θ, ð, s, z, ʃ, ʒ/) and affricates (/tʃ, dʒ/) are replaced with plosives. The substituted stop may or may not match the target in voicing or place of articulation.",
         "examples_phoneme": [("f","p","fish → pish"), ("f","b","fish → bish"),
                               ("f","d","fish → dish"), ("s","t","sun → tun"),
                               ("s","d","sun → dun"), ("z","d","zoo → doo"),
@@ -114,55 +114,52 @@ PROCESSES = {
                               ("th","t","thumb → tum"), ("ch","t","chair → tair"),
                               ("ch","d","chair → dair"), ("v","b","van → ban"),
                               ("v","d","van → dan")],
-        "development": "Resolves for most fricatives by ~3;0. Late fricatives (th, dh) may persist longer.",
+        "development": "Resolves for most fricatives by ~3;0. Dental fricatives /θ, ð/ may persist slightly longer.",
         "resolution_age_months": 36,
-        "clinical": "Reduces the fricative/stop and affricate/stop contrasts; can significantly reduce phoneme inventory. When stopping co-occurs with voicing or place errors, multiple processes interact.",
+        "clinical": "Collapses the fricative/stop and affricate/stop manner contrasts; significantly reduces phoneme inventory. When stopping co-occurs with voicing or place errors, multiple processes are interacting simultaneously.",
         "therapy": ["Auditory discrimination of stops vs fricatives",
-                    "Fricative placement cues (airflow, frication feel)",
+                    "Fricative placement cues (airflow awareness, frication feel on hand)",
                     "Minimal pairs (e.g. pie/fie, toe/so)",
-                    "If combined with voicing errors, address stopping first"]
+                    "If combined with voicing errors, address stopping first before targeting voicing"]
     },
     "Velar Fronting": {
         "category": "Substitution", "dimension": "Place contrasts", "type": "phoneme",
-        "pairs": [("k","t"),("g","d"),("ng","n"),
-                  ("k","d"),("g","t")],
-        "description": "Velar consonants /k, g, ng/ are produced as alveolars /t, d, n/.",
+        "pairs": [("k","t"),("g","d"),("ng","n"),("k","d"),("g","t")],
+        "description": "Velar consonants /k, ɡ, ŋ/ are produced as alveolar consonants /t, d, n/ — the place of articulation moves forward.",
         "examples_phoneme": [("k","t","cat → tat"), ("k","d","cat → dat"),
                               ("g","d","go → do"), ("ng","n","ring → rin")],
         "development": "Typically resolves by ~3;6.",
         "resolution_age_months": 42,
-        "clinical": "Loss of velar/alveolar place contrast; one of the most common early processes.",
-        "therapy": ["Minimal pairs targeting velar/alveolar contrast (e.g. tea/key)",
-                    "Velar placement cues (tongue-back elevation)",
+        "clinical": "Loss of the velar/alveolar place contrast; one of the most common early phonological processes. Note: backing is atypical in English but velar fronting is typical.",
+        "therapy": ["Minimal pairs targeting velar/alveolar contrast (e.g. tea/key, toe/go)",
+                    "Velar placement cues (tongue-back elevation, 'back of tongue touching soft palate')",
                     "Phonological contrast therapy"]
     },
     "Palatal Fronting": {
         "category": "Substitution", "dimension": "Place contrasts", "type": "phoneme",
-        "pairs": [("sh","s"),("zh","z"),("ch","ts"),("j","dz"),
-                  ("sh","z"),("ch","s"),("j","z")],
-        "description": "Palatal/postalveolar consonants /sh, zh, ch, j/ are produced as alveolars /s, z, ts, dz/.",
+        "pairs": [("sh","s"),("zh","z"),("ch","ts"),("j","dz"),("sh","z"),("ch","s"),("j","z")],
+        "description": "Postalveolar/palatal consonants /ʃ, ʒ, tʃ, dʒ/ are produced as alveolar consonants /s, z, ts, dz/ — place of articulation moves forward.",
         "examples_phoneme": [("sh","s","ship → sip"), ("zh","z","measure → meazure"),
                               ("ch","ts","chin → tsin"), ("j","dz","jump → dzump")],
-        "development": "Typically resolves by ~4;0-4;5.",
+        "development": "Typically resolves by ~4;0–4;5.",
         "resolution_age_months": 53,
-        "clinical": "Loss of palatal/alveolar place contrast.",
+        "clinical": "Loss of the palatal/alveolar place contrast.",
         "therapy": ["Auditory discrimination of palatal vs alveolar",
-                    "Minimal pairs (e.g. sea/she, soup/shoe)",
-                    "Articulatory cues for palatal position"]
+                    "Minimal pairs (e.g. sea/she, soup/shoe, chin/tin)",
+                    "Articulatory cues for postalveolar position (tongue blade raised and retracted slightly)"]
     },
     "Gliding": {
         "category": "Substitution", "dimension": "Liquid contrasts", "type": "phoneme",
-        "pairs": [("r","w"),("l","w"),("r","j"),("l","j"),
-                  ("l","y"),("r","y")],
-        "description": "Liquids /r/ and /l/ are replaced with glides /w/ or /j/.",
+        "pairs": [("r","w"),("l","w"),("r","j"),("l","j"),("l","y"),("r","y")],
+        "description": "Liquids /ɹ/ and /l/ are replaced with glides /w/ or /j/.",
         "examples_phoneme": [("r","w","red → wed"), ("r","w","rabbit → wabbit"),
                               ("l","w","leg → weg"), ("l","j","lamb → jamb"),
                               ("r","j","rabbit → jabbit")],
-        "development": "/l/ resolves ~5 years; /r/ may persist until 6-7 years (within normal limits).",
+        "development": "/l/ typically resolves by ~5 years; /ɹ/ may persist until 6–7 years (within normal limits).",
         "resolution_age_months": 84,
-        "clinical": "Liquid contrasts affected; /r/ is a late-developing phoneme. Gliding of approximants is typical; distinct from gliding of fricatives which is atypical.",
-        "therapy": ["Motor learning approaches for /r/ (if persistent after age 7)",
-                    "Minimal pairs therapy (e.g. red/wed)",
+        "clinical": "Liquid contrasts affected; /ɹ/ is one of the latest-developing English consonants. Gliding of approximants is a typical developmental process and is clinically distinct from gliding of fricatives, which is atypical.",
+        "therapy": ["Motor learning approaches for /ɹ/ (if persistent after age 7)",
+                    "Minimal pairs therapy (e.g. red/wed, lip/whip)",
                     "Phonological contrast therapy for /l/"]
     },
     "Gliding of Fricatives": {
@@ -171,158 +168,154 @@ PROCESSES = {
                   ("s","j"),("z","j"),("sh","j"),("zh","j"),
                   ("s","w"),("z","w"),("sh","w"),("zh","w"),
                   ("f","j"),("v","j"),("th","j"),("dh","j")],
-        "description": "Fricatives are replaced with glides /w/ or /j/. Distinct from gliding of approximants — this pattern is atypical.",
+        "description": "Fricatives (/f, v, θ, ð, s, z, ʃ, ʒ/) are replaced with glides /w/ or /j/. Clinically distinct from, and more significant than, gliding of approximants (/ɹ/ → /w/).",
         "examples_phoneme": [("f","w","fan → wan"), ("sh","j","should → jould"),
                               ("v","j","behave → behaje"), ("s","w","sun → wun"),
                               ("th","w","think → wink")],
         "development": "Atypical — not part of normal phonological development. Warrants specialist assessment.",
         "resolution_age_months": 0,
-        "clinical": "Disordered pattern. Reduces fricative/glide contrast. Much more significant than gliding of approximants.",
+        "clinical": "Disordered pattern. Substantially reduces the fricative inventory. Much more clinically significant than gliding of approximants (/ɹ/ → /w/), which is a typical developmental process.",
         "therapy": ["Specialist phonological assessment",
-                    "Detailed phonological process analysis",
+                    "Detailed phonological process analysis (PPK, DEAP)",
                     "Consider multiple oppositions therapy",
-                    "Fricative placement cues with strong auditory input"]
+                    "Fricative placement cues with strong auditory bombardment input"]
     },
     "Deaffrication": {
         "category": "Substitution", "dimension": "Manner contrasts", "type": "phoneme",
-        "pairs": [("ch","sh"),("j","zh"),("ch","s"),("j","z"),
-                  ("ch","f"),("j","v")],
-        "description": "Affricates /ch, j/ lose their stop component and are produced as fricatives.",
+        "pairs": [("ch","sh"),("j","zh"),("ch","s"),("j","z"),("ch","f"),("j","v")],
+        "description": "Affricates /tʃ, dʒ/ lose their stop (plosive) component and are produced as fricatives only.",
         "examples_phoneme": [("ch","sh","chair → share"), ("j","zh","jump → zhump"),
                               ("ch","s","cheese → seeze"), ("j","z","juice → zuice")],
-        "development": "Typically resolves by ~4;0-4;5.",
+        "development": "Typically resolves by ~4;0–4;5.",
         "resolution_age_months": 53,
-        "clinical": "Reduces the affricate/fricative distinction.",
+        "clinical": "Collapses the affricate/fricative manner distinction; /tʃ/ and /ʃ/ become homophones.",
         "therapy": ["Auditory discrimination of affricate vs fricative",
-                    "Blending stop + fricative approach (ch = t+sh)",
-                    "Minimal pairs (e.g. share/chair)"]
+                    "Blending stop + fricative approach (/tʃ/ = /t/+/ʃ/)",
+                    "Minimal pairs (e.g. share/chair, zoo/juice)"]
     },
     "Affrication": {
         "category": "Substitution", "dimension": "Manner contrasts", "type": "phoneme",
         "pairs": [("s","ch"),("z","j"),("sh","ch"),("zh","j"),
                   ("t","ch"),("d","j"),("f","ch"),("v","j"),
                   ("th","ch"),("dh","j")],
-        "description": "Fricatives or stops are replaced with affricates /ch/ or /j/.",
+        "description": "Fricatives or stops are replaced with affricates /tʃ/ or /dʒ/ — the reverse of deaffrication.",
         "examples_phoneme": [("s","ch","sun → chun"), ("z","j","zoo → joo"),
                               ("sh","ch","shoe → choo"), ("t","ch","tea → chea")],
-        "development": "Less common; may resolve by ~4 years. Persistent affrication warrants assessment.",
+        "development": "Less common than deaffrication; may resolve by ~4 years. Persistent affrication warrants assessment.",
         "resolution_age_months": 48,
-        "clinical": "Reverse of deaffrication. Can co-occur with other manner changes.",
+        "clinical": "Reverse of deaffrication. Can co-occur with other manner changes. Reduces fricative/affricate and stop/affricate distinctions.",
         "therapy": ["Auditory discrimination of fricative/stop vs affricate",
                     "Minimal pairs contrasting affricate with target manner",
-                    "Articulatory placement for sustained frication"]
+                    "Articulatory placement practice for sustained frication without stop onset"]
     },
     "Vocalisation": {
         "category": "Substitution", "dimension": "Liquid contrasts", "type": "phoneme",
         "pairs": [("l","u"),("l","o"),("l","uh"),("l","a"),("l","w"),("l","oo"),
                   ("r","uh"),("r","a"),("r","u"),("r","o"),("r","w"),("r","oo")],
-        "description": "Syllabic or postvocalic liquids /l, r/ are replaced by vowels or vowel-like sounds.",
+        "description": "Syllabic or postvocalic liquids /l/ and /ɹ/ are replaced by vowels or vowel-like sounds, particularly in syllable-final or syllabic positions.",
         "examples_phoneme": [("l","u","bottle → bottou"), ("l","o","ball → baw"),
                               ("r","uh","butter → buttuh"), ("r","a","car → caa")],
         "development": "Typically resolves by ~5 years.",
         "resolution_age_months": 60,
-        "clinical": "Primarily affects liquids in syllabic or final position.",
+        "clinical": "Primarily affects liquids in syllabic or word-final position; dark /l/ and syllabic /ɹ/ are particularly vulnerable.",
         "therapy": ["Syllabic liquid placement practice",
                     "Auditory discrimination of liquid vs vowel",
-                    "Dark /l/ and syllabic /r/ drill work"]
+                    "Dark /l/ and syllabic /ɹ/ drill work"]
     },
     "Final Devoicing": {
         "category": "Voicing", "dimension": "Voicing contrasts", "type": "phoneme",
         "pairs": [("z","s"),("v","f"),("d","t"),("b","p"),("g","k"),("j","ch"),("zh","sh"),
                   ("dh","th")],
-        "description": "Word-final voiced consonants are produced as their voiceless counterparts.",
+        "description": "Word-final (coda) voiced obstruents are produced as their voiceless counterparts.",
         "examples_phoneme": [("z","s","nose → noss"), ("d","t","bed → bet"),
                               ("b","p","cab → cap"), ("g","k","dog → dok"),
                               ("v","f","have → haf")],
         "development": "Typically resolves by ~3;0.",
         "resolution_age_months": 36,
-        "clinical": "Affects voicing contrasts in coda; may impact morphological markers (plural -z, past tense -d).",
-        "therapy": ["Voiced/voiceless minimal pairs in final position (e.g. cap/cab)",
-                    "Voicing awareness activities",
+        "clinical": "Collapses voicing contrasts in word-final position; may affect morphological markers (plural /-z/, past tense /-d/, third-person singular /-z/).",
+        "therapy": ["Voiced/voiceless minimal pairs in final position (e.g. cap/cab, bat/bad)",
+                    "Voicing awareness activities (feel laryngeal vibration)",
                     "Auditory bombardment with voiced-final targets"]
     },
     "Initial Voicing": {
         "category": "Voicing", "dimension": "Voicing contrasts", "type": "phoneme",
         "pairs": [("s","z"),("f","v"),("t","d"),("p","b"),("k","g"),("ch","j"),("sh","zh"),
                   ("th","dh")],
-        "description": "Word-initial voiceless consonants are produced as voiced.",
+        "description": "Word-initial (onset) voiceless obstruents are produced as their voiced counterparts.",
         "examples_phoneme": [("s","z","sun → zun"), ("t","d","top → dop"),
                               ("p","b","pie → bie"), ("k","g","coat → goat"),
                               ("f","v","fan → van")],
         "development": "Typically resolves by ~3;0.",
         "resolution_age_months": 36,
-        "clinical": "Affects voicing contrasts in onset position.",
-        "therapy": ["Voiced/voiceless minimal pairs in initial position (e.g. pin/bin)",
-                    "Aspiration awareness activities",
-                    "Voicing onset timing practice"]
+        "clinical": "Collapses voicing contrasts in word-initial position. Related to prevocalic voicing — initial obstruents become voiced before a following vowel.",
+        "therapy": ["Voiced/voiceless minimal pairs in initial position (e.g. pin/bin, tea/dee)",
+                    "Aspiration and voice onset time (VOT) awareness activities"]
     },
     "Backing": {
         "category": "Other", "dimension": "Place contrasts", "type": "phoneme",
         "pairs": [("t","k"),("d","g"),("n","ng"),("s","k"),("s","g"),
                   ("t","g"),("d","k"),("s","h"),("z","h"),
                   ("t","q"),("d","q"),("s","q")],
-        "description": "Alveolar or anterior consonants are produced at a more posterior place (velar, pharyngeal, or glottal).",
+        "description": "Alveolar or anterior consonants are produced at a more posterior place of articulation (velar, pharyngeal, or glottal) — the reverse of fronting.",
         "examples_phoneme": [("t","k","top → cop"), ("d","g","dog → gog"),
                               ("s","k","sun → kun"), ("s","h","sun → hun"),
-                              ("n","ng","no → ngo")],
+                              ("n","ng","no → ŋo")],
         "development": "Atypical in English — not part of normal phonological development. Warrants assessment. (Note: typical in some languages, e.g. Cantonese.)",
         "resolution_age_months": 0,
-        "clinical": "Atypical pattern; may indicate specific phonological disorder; associated with cleft palate/VPI (esp. backing to velar, pharyngeal, or glottal place). Specialist referral recommended.",
+        "clinical": "Atypical pattern; may indicate specific phonological disorder; associated with cleft palate/VPI (especially backing to velar, pharyngeal, or glottal places of articulation). Specialist referral recommended.",
         "therapy": ["Detailed phonological assessment",
                     "Specialist referral",
                     "Contrast therapy targeting anterior placement",
-                    "If associated with cleft/VPI, coordinate with ENT/cleft team"]
+                    "If associated with cleft/VPI, coordinate with ENT/cleft palate team"]
     },
     "Denasalisation": {
         "category": "Other", "dimension": "Manner contrasts", "type": "phoneme",
-        "pairs": [("m","b"),("n","d"),("ng","g"),
-                  ("m","p"),("n","t"),("ng","k")],
-        "description": "Nasal consonants are replaced with their oral plosive counterparts (loss of nasality).",
+        "pairs": [("m","b"),("n","d"),("ng","g"),("m","p"),("n","t"),("ng","k")],
+        "description": "Nasal consonants /m, n, ŋ/ are replaced with their oral plosive counterparts — nasality is lost.",
         "examples_phoneme": [("m","b","man → ban"), ("n","d","no → do"),
                               ("ng","g","ring → rig"), ("m","p","man → pan"),
                               ("n","t","no → to")],
-        "development": "Atypical — associated with cleft palate/VPI (hyponasality) or hearing impairment.",
+        "development": "Atypical — associated with cleft palate/VPI (causing hyponasality) or hearing impairment.",
         "resolution_age_months": 0,
-        "clinical": "Disordered pattern; associated with structural anomalies (cleft, VPI) causing hyponasality, or with deafness (confusion between /b/ and /m/, /n/ and /l/). Requires referral for velopharyngeal assessment.",
+        "clinical": "Disordered pattern; associated with structural anomalies (cleft, VPI) causing hyponasality, or with deafness (e.g. confusion of /b/ and /m/, or /n/ and /l/). Requires referral for velopharyngeal assessment.",
         "therapy": ["Velopharyngeal assessment referral",
                     "ENT/cleft palate team involvement",
                     "Nasal airflow awareness activities",
-                    "Auditory discrimination of nasal vs oral consonants"]
+                    "Auditory discrimination of nasal /m, n, ŋ/ vs oral /b, d, ɡ/ consonants"]
     },
     "Nasalisation": {
         "category": "Other", "dimension": "Manner contrasts", "type": "phoneme",
-        "pairs": [("b","m"),("d","n"),("g","ng"),
-                  ("p","m"),("t","n"),("k","ng")],
-        "description": "Oral plosives are replaced with nasal consonants (hypernasality / nasal emission).",
+        "pairs": [("b","m"),("d","n"),("g","ng"),("p","m"),("t","n"),("k","ng")],
+        "description": "Oral plosives are replaced with nasal consonants — nasal airflow is present where it should not be (hypernasality / nasal escape).",
         "examples_phoneme": [("b","m","big → mig"), ("d","n","dog → nog"),
-                              ("g","ng","go → ngo"), ("p","m","pie → mie")],
-        "development": "Atypical — associated with cleft palate/VPI (hypernasality / nasal escape on oral sounds).",
+                              ("g","ng","go → ŋo"), ("p","m","pie → mie")],
+        "development": "Atypical — associated with cleft palate/VPI (hypernasality/nasal escape on pressure consonants).",
         "resolution_age_months": 0,
-        "clinical": "Disordered pattern; indicative of velopharyngeal insufficiency. Oral plosives require velopharyngeal closure; if the VP port leaks, airflow escapes nasally.",
+        "clinical": "Disordered pattern; indicative of velopharyngeal insufficiency (VPI). Oral pressure consonants (/p, b, t, d, k, ɡ/, fricatives, affricates) require velopharyngeal closure; if the VP port is inadequate, airflow escapes nasally.",
         "therapy": ["Velopharyngeal assessment referral",
                     "ENT/cleft palate team involvement",
-                    "Do NOT attempt oral motor exercises for VP closure",
-                    "May require surgical intervention before speech therapy is effective"]
+                    "Do NOT attempt oral motor exercises to correct VP closure — these are ineffective",
+                    "Surgical or prosthetic VP management is typically required before speech therapy targets can be achieved"]
     },
     # ── ASSIMILATION ──────────────────────────────────────────────────────────
     "Progressive Assimilation": {
         "category": "Assimilation", "dimension": "Syllable structure", "type": "manual",
-        "description": "A sound becomes like a preceding sound in the same word (left-to-right harmony).",
+        "description": "A sound takes on features of a preceding sound in the same word — phonological harmony spreads left-to-right.",
         "examples_word": [("dog","dod"), ("top","pop"), ("cat","tat"), ("duck","dud")],
         "development": "Typically resolves by ~3;0.",
         "resolution_age_months": 36,
-        "clinical": "Whole-word harmony; can affect intelligibility in multisyllabic words.",
-        "therapy": ["Auditory discrimination of target vs error",
+        "clinical": "Whole-word phonological harmony; can affect intelligibility across multisyllabic words.",
+        "therapy": ["Auditory discrimination of target form vs assimilated form",
                     "Segmental approach to the word",
                     "Minimal pairs approach"]
     },
     "Regressive Assimilation": {
         "category": "Assimilation", "dimension": "Syllable structure", "type": "manual",
-        "description": "A sound becomes like a following sound in the same word (right-to-left harmony).",
+        "description": "A sound takes on features of a following sound in the same word — phonological harmony spreads right-to-left.",
         "examples_word": [("dog","gog"), ("top","kop"), ("cat","kak"), ("duck","guk")],
         "development": "Typically resolves by ~3;0.",
         "resolution_age_months": 36,
-        "clinical": "Later segment influences earlier segment.",
+        "clinical": "Later segment influences earlier segment; a later consonant 'pulls' an earlier one towards its place or manner.",
         "therapy": ["Auditory discrimination training",
                     "Segmental approach to the word"]
     },
@@ -330,37 +323,37 @@ PROCESSES = {
 
 DIMENSIONS = {
     "Place contrasts": {
-        "description": "Distinctions between consonants at different places of articulation (lips, alveolar ridge, palate, velum).",
+        "description": "Distinctions between consonants at different places of articulation (bilabial, labiodental, dental, alveolar, postalveolar, velar).",
         "processes": ["Velar Fronting", "Palatal Fronting", "Backing"],
-        "significance": "Place contrasts form the basis of many consonant distinctions. Loss reduces the phonemic inventory."
+        "significance": "Place contrasts form the basis of many consonant distinctions. Loss of place contrast reduces the phonemic inventory substantially."
     },
     "Manner contrasts": {
-        "description": "Distinctions between consonants with different manners of production (stops, fricatives, affricates, nasals, glides).",
+        "description": "Distinctions between consonants with different manners of production (plosives, fricatives, affricates, nasals, approximants, glides).",
         "processes": ["Stopping", "Deaffrication", "Affrication", "Gliding of Fricatives",
                       "Denasalisation", "Nasalisation"],
-        "significance": "Manner contrasts distinguish stops, fricatives, affricates, and nasals. Stopping is one of the most common early processes. Gliding of fricatives, denasalisation, and nasalisation are atypical."
+        "significance": "Manner contrasts distinguish plosives, fricatives, affricates, and nasals. Stopping is one of the most common early processes. Gliding of fricatives, denasalisation, and nasalisation are atypical patterns."
     },
     "Voicing contrasts": {
-        "description": "Distinctions between voiced and voiceless consonants across the phoneme inventory.",
+        "description": "Distinctions between voiced and voiceless consonants, maintained across the phoneme inventory in both onset and coda positions.",
         "processes": ["Final Devoicing", "Initial Voicing"],
-        "significance": "Voicing contrasts affect the phoneme inventory and morphological markers (plural -z, past tense -d)."
+        "significance": "Voicing contrasts affect the phoneme inventory and morphological markers (plural /-z/, past tense /-d/)."
     },
     "Liquid contrasts": {
-        "description": "Production accuracy and contrast maintenance for /r/ and /l/.",
+        "description": "Production accuracy and contrast maintenance for the liquids /ɹ/ and /l/.",
         "processes": ["Gliding", "Vocalisation"],
-        "significance": "Liquids are late-developing phonemes. /r/ may not stabilise until age 6-7, which is within normal limits."
+        "significance": "Liquids are late-developing phonemes. /ɹ/ may not stabilise until age 6–7 in typically developing children, which is within normal limits."
     },
     "Syllable structure": {
-        "description": "The integrity, complexity, and shape of syllables within words.",
+        "description": "The integrity, complexity, and shape of syllables within words — including onset clusters, unstressed syllables, and word shape.",
         "processes": ["Cluster Reduction", "Epenthesis", "Weak Syllable Deletion",
                       "Initial Consonant Deletion", "Reduplication",
                       "Progressive Assimilation", "Regressive Assimilation"],
-        "significance": "Syllable structure processes affect word shape, intelligibility, and ability to produce complex onsets."
+        "significance": "Syllable structure processes affect word shape, intelligibility, and the ability to produce complex onsets and multisyllabic words."
     },
     "Coda stability": {
         "description": "The presence and accuracy of consonants in word-final (coda) position.",
         "processes": ["Final Consonant Deletion"],
-        "significance": "Coda stability affects intelligibility and morphological development (plural, past tense, possessive)."
+        "significance": "Coda stability affects intelligibility and morphological development (plural, past tense, possessive, third-person singular)."
     },
 }
 
@@ -375,24 +368,24 @@ CLINICAL_ACTIONS = {
     ],
     "Consistency testing": [
         "Present same targets multiple times to check for consistent/inconsistent error patterns.",
-        "Inconsistent disorder = variable productions of the same word.",
+        "Inconsistent disorder = variable productions of the same word across attempts.",
         "Use DEAP Inconsistency Assessment (25 words x 3 repetitions).",
-        "Distinguish inconsistent phonological disorder from apraxia of speech."
+        "Distinguish inconsistent phonological disorder from childhood apraxia of speech (CAS)."
     ],
     "Phonological contrast therapy": [
-        "Minimal pairs — target error vs target sound in meaningful context.",
-        "Multiple oppositions — for children with multiple substitutions for one target.",
-        "Maximal oppositions — contrast sounds differing on multiple features.",
+        "Minimal pairs — target error vs target sound in meaningful communicative context.",
+        "Multiple oppositions — for children with multiple substitutions for one target sound.",
+        "Maximal oppositions — contrast sounds differing on multiple phonological features.",
         "Empty set — contrast two sounds neither of which the child produces correctly."
     ],
     "Cycles approach": [
-        "Suitable for highly unintelligible children with multiple patterns.",
+        "Suitable for highly unintelligible children with multiple phonological patterns.",
         "Target patterns in cycles; each pattern targeted for ~6 hours then cycled.",
-        "Auditory bombardment is a key component.",
+        "Auditory bombardment is a key component of every session.",
         "Particularly effective for syllable structure and assimilation patterns."
     ],
     "Monitoring": [
-        "If processes are age-appropriate, monitor over 3-6 months.",
+        "If processes are age-appropriate, monitor over 3–6 months.",
         "Review at next scheduled contact.",
         "Provide parent guidance on facilitating phonological development.",
         "Consider re-assessment if concerns persist."
@@ -446,15 +439,12 @@ def has_initial_cluster(word):
     return n >= 2
 
 def is_reduplication(target, produced):
-    """Check if produced form is a reduplication of a syllable from the target."""
     tw, pw = clean(target), clean(produced)
     if len(pw) < 2 or len(tw) < 3:
         return False
-    # Check if produced is a repeated syllable pattern (e.g. bobo, wawa, dada, taitai)
     half = len(pw) // 2
     if len(pw) >= 4 and len(pw) % 2 == 0 and pw[:half] == pw[half:]:
         return True
-    # Check for partial reduplication with shared onset
     if len(pw) >= 4 and pw[0] == tw[0] and pw[:2] == pw[-(len(pw)//2):]:
         return True
     return False
@@ -493,10 +483,8 @@ def detect_word(target, produced):
     return found
 
 def run_analysis(observations):
-    """Returns process_counts, process_examples, dimensions_hit — also tags each obs."""
     p_counts = defaultdict(int)
     p_examples = defaultdict(list)
-
     for obs in observations:
         otype = obs.get("type")
         if otype == "phoneme":
@@ -511,13 +499,11 @@ def run_analysis(observations):
         for pr in procs:
             p_counts[pr] += 1
             p_examples[pr].append(obs)
-
     dims_hit = defaultdict(list)
     for pr in p_counts:
         dim = PROCESSES.get(pr, {}).get("dimension", "Other")
         if pr not in dims_hit[dim]:
             dims_hit[dim].append(pr)
-
     return dict(p_counts), dict(p_examples), dict(dims_hit)
 
 def interpret(p_counts, age_months):
@@ -564,35 +550,35 @@ def interpret(p_counts, age_months):
                 concerns=concerns, atypical=atypical, actions=actions)
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# SYSTEM EFFECTS  (one-line description of what each process does to the system)
+# SYSTEM EFFECTS
 # ═══════════════════════════════════════════════════════════════════════════════
 
 SYSTEM_EFFECTS = {
-    "Weak Syllable Deletion":    "Reduces word length; collapses multisyllabic word shapes.",
-    "Final Consonant Deletion":  "Collapses CVC to CV; eliminates the coda contrast.",
+    "Weak Syllable Deletion":    "Reduces word length; collapses multisyllabic word shapes to stressed core.",
+    "Final Consonant Deletion":  "Collapses CVC to CV; eliminates the coda contrast entirely.",
     "Cluster Reduction":         "Simplifies onset clusters; reduces syllable shape complexity.",
-    "Epenthesis":                "Inserts vowel into cluster; adds extra syllable.",
+    "Epenthesis":                "Inserts schwa vowel into cluster; adds extra syllable.",
     "Initial Consonant Deletion":"Removes onset entirely; atypical collapse of word shape.",
-    "Reduplication":             "Collapses polysyllabic words to repeated syllable; very early strategy.",
-    "Stopping":                  "Fricatives/affricates collapse to stops; collapses manner contrast.",
-    "Velar Fronting":            "Loss of velar vs alveolar place contrast.",
-    "Palatal Fronting":          "Loss of palatal vs alveolar place contrast.",
-    "Gliding":                   "Liquids collapse into glides; reduces liquid contrast.",
+    "Reduplication":             "Collapses polysyllabic words to a repeated syllable; very early developmental strategy.",
+    "Stopping":                  "Fricatives and affricates collapse to plosives; collapses the manner contrast.",
+    "Velar Fronting":            "Loss of velar /k, ɡ, ŋ/ vs alveolar /t, d, n/ place contrast.",
+    "Palatal Fronting":          "Loss of postalveolar /ʃ, ʒ, tʃ, dʒ/ vs alveolar /s, z/ place contrast.",
+    "Gliding":                   "Liquids /ɹ, l/ collapse into glides /w, j/; reduces liquid contrast.",
     "Gliding of Fricatives":     "Fricatives collapse into glides; atypical — much broader system impact than gliding of approximants.",
-    "Deaffrication":             "Affricates lose stop element; reduces affricate/fricative distinction.",
+    "Deaffrication":             "Affricates /tʃ, dʒ/ lose stop element; collapses affricate/fricative distinction.",
     "Affrication":               "Fricatives/stops gain affricate quality; reduces manner distinctions.",
-    "Vocalisation":              "Syllabic liquids collapse to vowels; affects liquid inventory in final position.",
-    "Final Devoicing":           "Voiced codas devoiced; collapses voicing contrast word-finally.",
-    "Initial Voicing":           "Voiceless onsets voiced; collapses voicing contrast word-initially.",
+    "Vocalisation":              "Syllabic liquids /l, ɹ/ collapse to vowels; affects liquid inventory in final/syllabic position.",
+    "Final Devoicing":           "Voiced codas devoiced; collapses the voicing contrast word-finally.",
+    "Initial Voicing":           "Voiceless onsets voiced; collapses the voicing contrast word-initially.",
     "Backing":                   "Alveolars shift to velars/pharyngeals; atypical reversal of place contrast.",
-    "Denasalisation":            "Nasals collapse to oral stops; atypical — associated with cleft/VPI/hearing loss.",
-    "Nasalisation":              "Oral stops collapse to nasals; atypical — associated with VP insufficiency.",
-    "Progressive Assimilation":  "Earlier sound influences later sound; whole-word harmony.",
-    "Regressive Assimilation":   "Later sound influences earlier sound; whole-word harmony.",
+    "Denasalisation":            "Nasals /m, n, ŋ/ collapse to oral plosives; atypical — associated with cleft/VPI/hearing loss.",
+    "Nasalisation":              "Oral plosives collapse to nasals /m, n, ŋ/; atypical — associated with VP insufficiency.",
+    "Progressive Assimilation":  "Earlier sound influences later sound; whole-word phonological harmony.",
+    "Regressive Assimilation":   "Later sound influences earlier sound; whole-word phonological harmony.",
 }
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# CONSONANT CHART  (uses same simplified notation as the rest of the app)
+# CONSONANT CHART
 # ═══════════════════════════════════════════════════════════════════════════════
 
 CONSONANT_CHART = {
@@ -610,10 +596,6 @@ CONSONANT_CHART = {
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def build_phoneme_inventory(observations):
-    """
-    Build inventory from phoneme-type observations only.
-    Keeps target/produced as whole strings ("sh", "ng", etc.) — never splits by character.
-    """
     produced = set()
     targets  = set()
     for obs in observations:
@@ -627,7 +609,6 @@ def build_phoneme_inventory(observations):
     return {"produced": produced, "targets": targets, "missing": targets - produced}
 
 def display_inventory_chart(inventory):
-    """Render the consonant chart with colour-coded phoneme status."""
     produced = inventory["produced"]
     targeted = inventory["targets"]
     st.caption("🟢 Produced   🔴 Targeted but not produced   ⬜ Not in sample")
@@ -654,35 +635,29 @@ def display_inventory_chart(inventory):
                                 unsafe_allow_html=True)
 
 def inventory_reasoning(inventory):
-    """Generate clinical insights from the phoneme inventory."""
     produced = inventory["produced"]
     targeted = inventory["targets"]
     insights = []
-
     velars = {"k", "g", "ng"}
     if velars & targeted and not velars & produced:
         insights.append(
-            "**Velar inventory gap:** Velars were targeted but not produced. "
+            "**Velar inventory gap:** Velars /k, ɡ, ŋ/ were targeted but not produced. "
             "Consider whether this reflects Velar Fronting (a process) or true phoneme absence — "
             "the distinction affects therapy approach.")
-
     fricatives = {"f","v","s","z","sh","zh","th","dh"}
     if fricatives & targeted and not fricatives & produced:
         insights.append(
-            "**Fricative inventory gap:** Fricatives targeted but absent from produced inventory. "
+            "**Fricative inventory gap:** Fricatives /f, v, θ, ð, s, z, ʃ, ʒ/ targeted but absent from produced inventory. "
             "May reflect consistent Stopping or a broader inventory gap.")
-
     nasals = {"m", "n", "ng"}
     if nasals & targeted and not nasals & produced:
         insights.append(
-            "**Nasal inventory gap:** Nasals targeted but absent from produced inventory. "
-            "May reflect Denasalisation — consider velopharyngeal or hearing assessment.")
-
+            "**Nasal inventory gap:** Nasals /m, n, ŋ/ targeted but absent from produced inventory. "
+            "May reflect Denasalisation — consider velopharyngeal or audiological assessment.")
     if produced and len(produced) < 6:
         insights.append(
             f"**Limited inventory:** Only {len(produced)} distinct consonant(s) produced in this sample "
             f"({', '.join(sorted(produced))}). Consider whether sample size is sufficient for inventory assessment.")
-
     return insights
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -700,7 +675,7 @@ for k, v in {
         st.session_state[k] = v
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# SIDEBAR — CASE METADATA
+# SIDEBAR
 # ═══════════════════════════════════════════════════════════════════════════════
 
 with st.sidebar:
@@ -725,16 +700,11 @@ with st.sidebar:
 
     st.divider()
     if st.button("🏠  New Case", use_container_width=True, type="primary"):
-        st.session_state.obs = []
-        st.session_state.counter = 0
-        st.session_state.child_age = "0;0"
-        st.session_state.test_used = "DEAP"
-        st.session_state.notes = ""
-        st.session_state.map_dim = None
-        st.session_state.map_proc = None
-        st.session_state.edu_proc = None
-        st.session_state.edu_search_proc = None
-        st.session_state.page = "input"
+        for _k in ["obs","counter","child_age","test_used","notes",
+                   "map_dim","map_proc","edu_proc","edu_search_proc","page"]:
+            st.session_state[_k] = {"obs":[],"counter":0,"child_age":"0;0",
+                "test_used":"DEAP","notes":"","map_dim":None,"map_proc":None,
+                "edu_proc":None,"edu_search_proc":None,"page":"input"}[_k]
         st.rerun()
 
     if st.button("Reset Session", use_container_width=True):
@@ -764,7 +734,7 @@ with st.sidebar:
                 st.write(f"- {_t}")
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# GLOBAL ANALYSIS (runs once per rerun)
+# GLOBAL ANALYSIS
 # ═══════════════════════════════════════════════════════════════════════════════
 
 age_months = parse_age_months(st.session_state.child_age)
@@ -788,7 +758,7 @@ if st.session_state.notes:
     st.info(f"**Notes:** {st.session_state.notes}")
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# TABS
+# NAVIGATION
 # ═══════════════════════════════════════════════════════════════════════════════
 
 _PAGE_LABELS = ["Input & Observations", "Analysis & Reasoning",
@@ -838,7 +808,7 @@ if st.session_state.page == "input":
             otype = "stimulus"
             manual_sel = []
 
-        else:  # Manual Process Tag
+        else:
             manual_sel = st.multiselect(
                 "Select process(es) observed",
                 [n for n, p in PROCESSES.items() if p.get("type") == "manual"]
@@ -866,7 +836,6 @@ if st.session_state.page == "input":
             })
             st.rerun()
 
-    # ── Observations Table ────────────────────────────────────────────────────
     if st.session_state.obs:
         st.divider()
         st.subheader("Recorded Observations")
@@ -909,7 +878,6 @@ elif st.session_state.page == "analysis":
     if not st.session_state.obs:
         st.info("Add observations in **Input & Observations** to see analysis here.")
     else:
-        # ── Detected Processes ────────────────────────────────────────────────
         st.subheader("Detected Phonological Processes")
         if not p_counts:
             st.warning("No processes automatically detected. Check your entries, or use Manual Process Tag for assimilation patterns.")
@@ -950,25 +918,20 @@ elif st.session_state.page == "analysis":
                             st.markdown("**Typical examples:**")
                             for ew in proc["examples_word"][:3]:
                                 st.caption(f"{ew[0]} → {ew[1]}")
-                    # ── Inventory link warning ────────────────────────────────
                     _inv = build_phoneme_inventory(st.session_state.obs)
                     _prod = _inv["produced"]
                     if proc_name == "Velar Fronting" and not {"k","g"} & _prod:
-                        st.warning("Velars absent from produced inventory in this sample. "
-                                   "Consider phoneme absence rather than a process — this changes the therapy approach.")
+                        st.warning("Velars absent from produced inventory. Consider phoneme absence rather than a process — this changes the therapy approach.")
                     elif proc_name == "Stopping" and not {"f","v","s","z","sh"} & _prod:
-                        st.warning("Fricatives absent from produced inventory. "
-                                   "May reflect inventory gap rather than a process.")
+                        st.warning("Fricatives absent from produced inventory. May reflect an inventory gap rather than a process.")
                     elif proc_name == "Backing":
                         st.error("Backing is an atypical pattern. Flag for specialist review.")
                     elif proc_name == "Gliding of Fricatives":
-                        st.error("Gliding of fricatives is an atypical/disordered pattern — distinct from gliding of approximants. Flag for specialist review.")
+                        st.error("Gliding of fricatives is an atypical/disordered pattern — distinct from gliding of approximants (/ɹ/ → /w/). Flag for specialist review.")
                     elif proc_name in ("Denasalisation", "Nasalisation"):
-                        st.error(f"{proc_name} detected. Consider velopharyngeal assessment / ENT referral. Associated with cleft/VPI or hearing impairment.")
+                        st.error(f"{proc_name} detected. Consider velopharyngeal assessment and ENT referral. Associated with cleft/VPI or hearing impairment.")
 
         st.divider()
-
-        # ── Phoneme Inventory ─────────────────────────────────────────────────
         st.subheader("Phoneme Inventory")
         _inventory = build_phoneme_inventory(st.session_state.obs)
         if not _inventory["targets"]:
@@ -982,8 +945,6 @@ elif st.session_state.page == "analysis":
                     st.info(_ins)
 
         st.divider()
-
-        # ── System Dimensions Affected ────────────────────────────────────────
         st.subheader("System Dimensions Affected")
         if dims_hit:
             dcols = st.columns(min(len(dims_hit), 3))
@@ -996,8 +957,6 @@ elif st.session_state.page == "analysis":
                     </div>""", unsafe_allow_html=True)
 
         st.divider()
-
-        # ── Reasoning Pathway ─────────────────────────────────────────────────
         st.subheader("Reasoning Pathway")
 
         obs_preview = ", ".join(
@@ -1041,8 +1000,6 @@ elif st.session_state.page == "analysis":
                 </div>""", unsafe_allow_html=True)
 
         st.divider()
-
-        # ── System-Level Interpretation ───────────────────────────────────────
         st.subheader("System-Level Interpretation")
         if interp:
             colour = interp["colour"]
@@ -1076,8 +1033,6 @@ elif st.session_state.page == "analysis":
             st.caption("These are clinical suggestions, not diagnoses. Professional judgement is required.")
 
         st.divider()
-
-        # ── Clinical Decisions ────────────────────────────────────────────────
         st.subheader("Possible Next Steps")
         if interp:
             for action in interp["actions"]:
@@ -1086,24 +1041,26 @@ elif st.session_state.page == "analysis":
                         st.write(f"- {step}")
 
 # ─────────────────────────────────────────────────────────────────────────────
-# TAB 3 — SYSTEM MAP
+# TAB 3 — SYSTEM MAP  (button highlighting fixed)
 # ─────────────────────────────────────────────────────────────────────────────
 elif st.session_state.page == "map":
     st.subheader("Phonological System Map")
-    st.caption("Click a dimension to explore. Processes detected in the current session are highlighted.")
+    st.caption("Select a dimension to explore. The selected dimension turns blue; detected processes are marked 🔴.")
 
     if active_procs:
         st.markdown(f"**Active in session:** {', '.join(sorted(active_procs))}")
 
-    # Dimension buttons
     dim_names = list(DIMENSIONS.keys())
     dim_cols = st.columns(len(dim_names))
     for i, dim in enumerate(dim_names):
         dim_active = any(p in active_procs for p in DIMENSIONS[dim]["processes"])
+        is_selected_dim = st.session_state.map_dim == dim
         label = f"{'🔴 ' if dim_active else ''}{dim}"
         with dim_cols[i]:
-            if st.button(label, key=f"map_{dim}", use_container_width=True):
-                if st.session_state.map_dim == dim:
+            # primary = selected (blue), secondary = not selected (grey)
+            if st.button(label, key=f"map_{dim}", use_container_width=True,
+                         type="primary" if is_selected_dim else "secondary"):
+                if is_selected_dim:
                     st.session_state.map_dim = None
                     st.session_state.map_proc = None
                 else:
@@ -1111,7 +1068,6 @@ elif st.session_state.page == "map":
                     st.session_state.map_proc = None
                 st.rerun()
 
-    # Selected dimension panel
     if st.session_state.map_dim:
         dim = st.session_state.map_dim
         dinfo = DIMENSIONS[dim]
@@ -1124,16 +1080,17 @@ elif st.session_state.page == "map":
         proc_cols = st.columns(min(len(dinfo["processes"]), 3))
         for j, pname in enumerate(dinfo["processes"]):
             is_active = pname in active_procs
+            is_selected_proc = st.session_state.map_proc == pname
             cnt = p_counts.get(pname, 0)
-            btn_label = f"{pname}{f' ✓ ({cnt})' if is_active else ''}"
+            # Show count if detected; mark selected with primary colour
+            btn_label = f"{'🔴 ' if is_active else ''}{pname}{f' ({cnt})' if is_active else ''}"
             with proc_cols[j % 3]:
                 if st.button(btn_label, key=f"mproc_{pname}",
-                             type="primary" if is_active else "secondary",
+                             type="primary" if is_selected_proc else "secondary",
                              use_container_width=True):
-                    st.session_state.map_proc = None if st.session_state.map_proc == pname else pname
+                    st.session_state.map_proc = None if is_selected_proc else pname
                     st.rerun()
 
-        # Selected process panel
         if st.session_state.map_proc and st.session_state.map_proc in dinfo["processes"]:
             pname = st.session_state.map_proc
             proc = PROCESSES.get(pname, {})
@@ -1143,7 +1100,10 @@ elif st.session_state.page == "map":
             with pa:
                 st.markdown(f"**Explanation:** {proc.get('description','')}")
                 st.markdown(f"**Development:** {proc.get('development','')}")
-                st.markdown(f"**System effect:** {proc.get('clinical','')}")
+                se = SYSTEM_EFFECTS.get(pname, "")
+                if se:
+                    st.markdown(f"**System effect:** {se}")
+                st.markdown(f"**Clinical note:** {proc.get('clinical','')}")
                 if proc.get("therapy"):
                     st.markdown("**Therapy approaches:**")
                     for t in proc["therapy"]:
@@ -1170,10 +1130,9 @@ elif st.session_state.page == "edu":
     st.subheader("Educational Exploration Mode")
     st.markdown("Start from a **system dimension**, or search across all processes by name, symptom, or therapy approach.")
 
-    # ── Search bar ────────────────────────────────────────────────────────────
     search_q = st.text_input(
         "Search",
-        placeholder="e.g. velar, minimal pairs, intelligibility, 3 years, stopping, cleft, atypical...",
+        placeholder="e.g. velar, ŋ, ʃ, minimal pairs, cleft, atypical, 3 years, stopping...",
         label_visibility="collapsed"
     )
 
@@ -1192,7 +1151,6 @@ elif st.session_state.page == "edu":
         return " ".join(parts).lower()
 
     def render_process_panel(pname, source_key):
-        """Renders the full knowledge panel for a process on the right column."""
         proc = PROCESSES.get(pname, {})
         dim = proc.get("dimension", "")
         st.markdown(f"## {pname}")
@@ -1200,7 +1158,10 @@ elif st.session_state.page == "edu":
         st.divider()
         st.markdown(f"**Explanation:** {proc.get('description', '')}")
         st.markdown(f"**Developmental timeline:** {proc.get('development', '')}")
-        st.markdown(f"**System effect:** {proc.get('clinical', '')}")
+        se = SYSTEM_EFFECTS.get(pname, "")
+        if se:
+            st.markdown(f"**System effect:** {se}")
+        st.markdown(f"**Clinical note:** {proc.get('clinical', '')}")
         if proc.get("examples_phoneme"):
             st.markdown("**Example errors:**")
             df_ex = pd.DataFrame(proc["examples_phoneme"], columns=["Target", "Produced", "Example"])
@@ -1216,14 +1177,12 @@ elif st.session_state.page == "edu":
         if pname in active_procs:
             st.success(f"**Active in current session** — {p_counts[pname]} instance(s)")
 
-    # ── Search mode ───────────────────────────────────────────────────────────
     if search_q.strip():
         q = search_q.strip().lower()
         matches = [
             pname for pname, proc in PROCESSES.items()
             if q in build_search_corpus(pname, proc)
         ]
-
         col_l, col_r = st.columns([1, 2])
         with col_l:
             if matches:
@@ -1238,16 +1197,13 @@ elif st.session_state.page == "edu":
                         st.rerun()
             else:
                 st.warning(f"No processes matched *\"{search_q}\"*.")
-                st.caption("Try: process name, symptom, therapy approach, or developmental age.")
-
+                st.caption("Try: process name, IPA symbol, symptom, therapy approach, or developmental age.")
         with col_r:
             selected = st.session_state.edu_search_proc
             if selected and selected in matches:
                 render_process_panel(selected, "search")
             elif matches:
                 st.info("Select a result on the left to view its full knowledge panel.")
-
-    # ── Browse mode (dimension → process) ────────────────────────────────────
     else:
         col_l, col_r = st.columns([1, 2])
         with col_l:
@@ -1265,7 +1221,6 @@ elif st.session_state.page == "edu":
                     if st.button(label, key=f"edu_{pname}", use_container_width=True):
                         st.session_state.edu_proc = pname
                         st.rerun()
-
         with col_r:
             if edu_dim != "— Select —" and st.session_state.edu_proc:
                 pname = st.session_state.edu_proc
